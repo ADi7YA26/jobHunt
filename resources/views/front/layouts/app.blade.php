@@ -7,6 +7,7 @@
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<meta content="" name="keywords">
 	<meta content="" name="description">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 
 	<!-- Google Web Fonts -->
 	<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
@@ -111,6 +112,15 @@
 	<script src="{{ asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
 
 	<script src="{{ asset('js/main.js') }}"></script>
+
+	<script>
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+	</script>
+	@yield('customJs')
 </body>
 
 </html>
