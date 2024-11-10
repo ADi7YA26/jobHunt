@@ -8,18 +8,29 @@
             <p>{{ Session::get('success') }}</p>
         </div>
     @endif
-    <form action="" name="registrationForm" id="registrationForm">
+    
+    @if (Session::has('error'))
+        <div class="alert alert-danger">
+            <p>{{ Session::get('error') }}</p>
+        </div>
+    @endif
+
+    <form action="{{ route('account.authenticate') }}" method="post">
+        @csrf
         <h1 class="mb-4">Sign-in</h1>
         <div class="mb-3">
             <label class="form-label" for="email">Email</label>
-            <input type="email" name="email" class="form-control" id="email" placeholder="Email">
-            <p></p>
+            <input type="email" value="{{ old('email') }}" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Email">
+            @error('email')
+                <p class="invalid-feedback">{{ $message }}</p>
+            @enderror
         </div>
         <div class="mb-4">
             <label class="form-label" for="password">Password </label>
-            <input type="password" name="password" class="form-control" id="password" placeholder="Password"
-                autocomplete="current-password">
-            <p></p>
+            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror " id="password" placeholder="Password" autocomplete="current-password">
+            @error('password')
+                <p class="invalid-feedback">{{ $message }}</p>
+            @enderror
         </div>
         <div>
             <button class="btn btn-primary w-100">Sign In</button>
