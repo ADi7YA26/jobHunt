@@ -4,7 +4,7 @@
             <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
         </div>
         <h5 class="user-name">{{ Auth::user()->name }} </h5>
-        <h6 class="user-designation">Full Stack Developer</h6>
+        <h6 class="user-designation">{{ Auth::user()->designation }}</h6>
         <button class="btn btn-primary py-2 mt-4">Change profile</button>
     </div>
 </div>
