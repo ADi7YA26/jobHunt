@@ -53,7 +53,11 @@
 					<a href="" class="nav-item nav-link">Jobs</a>
 					<a href="" class="nav-item nav-link">Contact</a>
 				</div>
-				<a href="{{ route('account.registration') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Sign Up<i class="fa fa-arrow-right ms-3"></i></a>
+				@if (Auth::check())
+					<a href="{{ route('account.profile') }}" class="nav-item nav-link" title="My profile"><i class="bi bi-person-circle fs-2"></i></i></a>
+				@else
+					<a href="{{ route('account.login') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Sign In<i class="fa fa-arrow-right ms-3"></i></a>
+				@endif
 			</div>
 		</nav>
 
