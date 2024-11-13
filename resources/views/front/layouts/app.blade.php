@@ -52,6 +52,8 @@
 					<a href="" class="nav-item nav-link">About</a>
 					<a href="" class="nav-item nav-link">Jobs</a>
 					<a href="" class="nav-item nav-link">Contact</a>
+					<a href="{{ route('account.createJob') }}" class="nav-item nav-link">Post a job</a>
+
 				</div>
 				@if (Auth::check())
 					<a href="{{ route('account.profile') }}" class="nav-item nav-link" title="My profile"><i class="bi bi-person-circle fs-2"></i></i></a>
@@ -78,6 +80,7 @@
 						<li><a href="#">About</a></li>
 						<li><a href="#">Jobs</a></li>
 						<li><a href="#">Contact</a></li>
+						<li><a href="{{ route('account.createJob') }}">Post a job</a></li>
 					</ul>
 				</div>
 

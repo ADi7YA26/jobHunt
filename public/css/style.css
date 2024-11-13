@@ -16,6 +16,8 @@
 .form-control:focus{border-color: var(--primary); box-shadow: none;}
 .logo span{color: var(--secondary);}
 .heading span{color: var(--primary);}
+.info1{color: var(--color-info); font-size: .7rem;}
+
 .form-label.required::after{
     content: '*';
     color: var(--secondary);
