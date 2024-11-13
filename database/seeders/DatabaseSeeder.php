@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         });
 
 
-        collect(['Accountant', 'Human Resources', 'IT', 'Marketing', 'Sales'])->each(function ($category) {
+        collect(['Accountant', 'Customer Service', 'Education', 'Healthcare', 'Human Resources', 'IT', 'Marketing', 'Sales', ])->each(function ($category) {
             Category::factory()->create(['name' => $category]);
         });
 
