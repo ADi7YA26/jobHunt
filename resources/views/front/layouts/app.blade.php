@@ -50,7 +50,7 @@
 				<div class="navbar-nav ms-auto p-4 p-lg-0">
 					<a href="{{ route('home') }}" class="nav-item nav-link">Home</a>
 					<a href="" class="nav-item nav-link">About</a>
-					<a href="" class="nav-item nav-link">Jobs</a>
+					<a href="{{ route('jobs') }}" class="nav-item nav-link">Jobs</a>
 					<a href="" class="nav-item nav-link">Contact</a>
 					<a href="{{ route('account.createJob') }}" class="nav-item nav-link">Post a job</a>
 

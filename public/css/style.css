@@ -338,7 +338,6 @@ p{color: var(--color-info);}
 /*** Job Listing ***/
 
 .job-grid {
-    margin-top: 4rem;
     display: grid;
     gap: 1rem;
 }
