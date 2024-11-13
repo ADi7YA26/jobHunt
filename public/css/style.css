@@ -9,8 +9,6 @@
 
     --secondary: #fa6021;
 
-    --light: #7d8da1;
-
     --box-shadow: 0 2rem 3rem var(--color-light);    
 }
 
@@ -18,6 +16,10 @@
 .form-control:focus{border-color: var(--primary); box-shadow: none;}
 .logo span{color: var(--secondary);}
 .heading span{color: var(--primary);}
+.form-label.required::after{
+    content: '*';
+    color: var(--secondary);
+}
 
 .back-to-top {
     position: fixed;
