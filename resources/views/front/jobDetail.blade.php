@@ -19,6 +19,11 @@
                         <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ $job->jobType->name }}</span>
                         <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{ $job->salary }}</span>
                     </div>
+                    <div class="jobs_right" style="margin:0 0 auto auto ;">
+                        <div class="save_job">
+                            <a href="javascript:void(0);" onclick="saveJob({{ $job->id }})" class="btn btn-light btn-square" aria-hidden="true"><i class="{{ ($count == 1)?'fas': 'far'}} fa-heart text-primary"></i></a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mb-5">
@@ -32,7 +37,7 @@
 
                 <div>       
                     @if (Auth::check())
-                        <a href="#" class="btn btn-secondary me-2">Save</a>  
+                        <a href="#" onclick="saveJob({{ $job->id }})" class="btn btn-secondary me-2">Save</a>  
                     @else
                         <a href="javascript:void(0);" class="btn btn-secondary me-2 disabled">Login to Save</a>
                     @endif
@@ -81,6 +86,18 @@
                         } 
                     });
                 }
+            }
+
+            function saveJob(id){
+                $.ajax({
+                    url : '{{ route("saveJob") }}',
+                    type: 'post',
+                    data: {id:id},
+                    dataType: 'json',
+                    success: function(response) {
+                        window.location.href = "{{ url()->current() }}";
+                    } 
+                });
             }
         </script>
     @endsection
