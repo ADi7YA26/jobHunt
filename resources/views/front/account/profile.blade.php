@@ -49,7 +49,7 @@
 				</div>
 			</form>
 
-			<form class="card p-5">
+			<form action="" method="post" id="changePasswordForm" name="changePasswordForm" class="card p-5">
 				<div class="row gutters">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 						<h6 class="mb-2 text-primary">Change Password</h6>
@@ -57,20 +57,22 @@
 					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 						<div class="form-group my-2">
 							<label class="form-label" for="old_password">Old Password*</label>
-							<input type="password" class="form-control" id="old_password" placeholder="Old password">
+							<input type="password" name="old_password" class="form-control" id="old_password" placeholder="Old password">
+							<p></p>
 						</div>
 					</div>
 					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 						<div class="form-group my-2">
 							<label class="form-label" for="new_password">New Password</label>
-							<input type="password" class="form-control" id="new_password" placeholder="New password">
+							<input type="password" name="new_password" class="form-control" id="new_password" placeholder="New password">
+							<p></p>
 						</div>
 					</div>
 					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 						<div class="form-group my-2">
 							<label class="form-label" for="confirm_password">Confirm Password</label>
-							<input type="password" class="form-control" id="confirm_password"
-								placeholder="Confirm password">
+							<input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="Confirm password">
+							<p></p>
 						</div>
 					</div>
 				</div>
@@ -107,9 +109,6 @@
 						window.location.href="{{ route('account.profile') }}";
 					}else{
 						let errors = response.errors;
-						// $.each(errors, function(key, value) {
-						// 	$('#' + key).addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(value)
-						// });
 						if(errors.name){
 							$("#name").addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(errors.name)
 						}else{
@@ -120,6 +119,30 @@
 						}else{
 							$("#email").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('')
 						}
+					}
+				}
+			})
+		})
+	
+		$("#changePasswordForm").submit(function(e){
+			e.preventDefault();
+
+			$.ajax({
+				url: '{{ route("account.changePassword") }}',
+				type: 'post',
+				dataType: 'json',
+				data: $("#changePasswordForm").serializeArray(),
+				success: function(response){
+					if(response.status == true){
+						["old_password", "new_password", "confirm_password"].forEach(field => {
+							toggleValidation(field, null); 
+						});
+						window.location.href="{{ route('account.profile') }}";
+					}else{
+						let errors = response.errors;                    
+						toggleValidation("old_password", errors.old_password);
+						toggleValidation("new_password", errors.new_password);
+						toggleValidation("confirm_password", errors.confirm_password);
 					}
 				}
 			})
