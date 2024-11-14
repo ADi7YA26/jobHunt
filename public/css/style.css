@@ -20,6 +20,7 @@ p{color: var(--color-info);}
 .logo span{color: var(--secondary);}
 .heading span{color: var(--primary);}
 .info1{color: var(--color-info); font-size: .7rem;}
+.action-dots *{transition: transform 0s;}
 .container .heading + p{
     max-width: 600px;
     margin-inline: auto;
