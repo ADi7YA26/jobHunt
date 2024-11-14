@@ -69,10 +69,14 @@ class JobsController extends Controller
     // This method will show job detail page
     public function detail($id){
         $job = Job::where(['id'=> $id, 'status'=>1])->first();
-        $count = SavedJob::where(['user_id'=> Auth::user()->id, 'job_id'=> $id])->count();
 
         if($job == null){
             abort(404);
+        }
+
+        $count = 0;
+        if(Auth::user()){
+            $count = SavedJob::where(['user_id'=> Auth::user()->id, 'job_id'=> $id])->count();
         }
 
         return view('front.jobDetail', [
