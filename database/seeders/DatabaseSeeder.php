@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        collect(['Full Time', 'Part Time', 'Internship', 'Freelance', 'Remote'])->each(function ($type) {
+        collect(['Full Time', 'Part Time', 'Internship', 'Freelance', 'Contract'])->each(function ($type) {
             JobType::factory()->create(['name' => $type]);
         });
 
