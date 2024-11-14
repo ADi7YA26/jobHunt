@@ -21,7 +21,7 @@
         transform your career.
     </p>
     <div class="header-btns">
-        <button class="btn btn-primary">Browse Jobs</button>
+        <a href="{{ route('jobs') }}" class="btn btn-primary text-white">Browse Jobs</a>
         <a href="#">
             <span><i class="bi bi-play-fill"></i></span>
             How It Works?
@@ -134,8 +134,8 @@
         <p class="text-center wow fadeInUp mb-5" data-wow-delay="0.1s">Discover Exciting New Opportunities and High-Demand Positions Available Now in Top Industries and Companies </p>
         <div class="job-grid">
             @if ($latestJobs->isNotEmpty())
-                @foreach ($latestJobs as $job)
-                <div class="job-card wow fadeInUp" data-wow-delay="0.3s">
+                @foreach ($latestJobs as $index => $job)
+                <div class="job-card wow fadeInUp" data-wow-delay="{{ 0.1 + (0.2 * $index) }}s">
                     <div class="job-card-header">
                         <img src="{{ $job->company_website }}/favicon.ico" onerror="this.onerror=null; this.src='{{ $job->company_website }}/favicon.png'" alt="job" />
                         <div>
@@ -143,8 +143,10 @@
                             <span>{{ $job->location }}</span>
                         </div>
                     </div>
-                    <h4>{{ $job->title }}</h4>
-                    <p>{{ Str::words(strip_tags($job->description), 20) }}</p>
+                    <a href="{{ route('jobDetail', $job->id) }}" >
+                        <h4>{{ $job->title }}</h4>
+                        <p>{{ Str::words(strip_tags($job->description), 20) }}</p>
+                    </a>
                     <div class="job-card-footer">
                         <span>{{ $job->vacancy }} Positions</span>
                         <span>{{ $job->jobType->name }}</span>

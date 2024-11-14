@@ -62,4 +62,17 @@ class JobsController extends Controller
             'jobTypeArray' => $jobsTypeArray
         ]);
     }
+
+    // This method will show job detail page
+    public function detail($id){
+        $job = Job::where(['id'=> $id, 'status'=>1])->first();
+
+        if($job == null){
+            abort(404);
+        }
+
+        return view('front.jobDetail', [
+            'job' => $job
+        ]);
+    }
 }

@@ -77,8 +77,8 @@
 
             <div class="col-md-8 col-lg-9 ">
                 @if ($jobs->isNotEmpty())
-                    @foreach ($jobs as $job)
-                        <div class="job-card  bg-white shadow mb-3 wow fadeInUp" data-wow-delay="0.3s">
+                    @foreach ($jobs as $index => $job)
+                        <div class="job-card  bg-white shadow mb-3 wow fadeInUp" data-wow-delay="{{ 0.3 + (0.2 * $index) }}s">
                             <div class="job-card-header">
                                 <img src="{{ $job->company_website }}/favicon.ico"
                                     onerror="this.onerror=null; this.src='{{ $job->company_website }}/favicon.png'"
@@ -88,9 +88,11 @@
                                     <span>{{ $job->location }}</span>
                                 </div>
                             </div>
-                            <h4>{{ $job->title }}</h4>
-                            <p>{{ Str::words(strip_tags($job->description), 35) }}</p>
-                            <div class="job-card-footer">
+                                <a href="{{ route('jobDetail', $job->id) }}" >
+                                    <h4>{{ $job->title }}</h4>
+                                    <p>{{ Str::words(strip_tags($job->description), 35) }}</p>
+                                </a>
+                                <div class="job-card-footer">
                                 @if ($job->vacancy)
                                     <span>{{ $job->vacancy }} Vacancy</span>
                                 @endif

@@ -348,7 +348,6 @@ p{color: var(--color-info);}
 	box-shadow: var(--box-shadow);
 	border: 1px solid #00000015;
     border-radius: .5rem;
-	cursor: pointer;
 }
 
 .job-card:hover {
