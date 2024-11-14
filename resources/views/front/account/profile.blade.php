@@ -102,23 +102,15 @@
 				data: $("#userForm").serializeArray(),
 				success: function(response){
 					if(response.status == true){
-						$("#name").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('')
-
-						$("#email").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('')
-
+						["name", "email"].forEach(field => {
+							toggleValidation(field, null); 
+						});
+						
 						window.location.href="{{ route('account.profile') }}";
 					}else{
 						let errors = response.errors;
-						if(errors.name){
-							$("#name").addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(errors.name)
-						}else{
-							$("#name").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('')
-						}
-						if(errors.email){
-							$("#email").addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(errors.email)
-						}else{
-							$("#email").removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html('')
-						}
+						toggleValidation("name", errors.name);
+						toggleValidation("email", errors.email);
 					}
 				}
 			})
