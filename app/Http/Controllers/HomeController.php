@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     // this method will show our home page
     public function index(){
-        $categories = Category::where('status',1)->orderBy('name', 'ASC')->take(8)->get();
+        $categories = Category::where('status',1)->orderBy('name', 'ASC')->get();
 
         $latestJobs = Job::where('status', 1)->orderBy('created_at', 'DESC')->take(6)->get() ;
 

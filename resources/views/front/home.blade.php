@@ -28,41 +28,38 @@
         </a>
     </div>
 </section>
-
-
 <!-- Home End -->
 
 
-<!-- Search Start -->
+<!-- Search Form Start -->
 <div class="container-fluid search mb-5 p-4 wow fadeIn" data-wow-delay="0.1s">
     <div class="container">
+        <form action="{{ route("jobs") }}" method="GET">
         <div class="row g-2">
             <div class="col-md-10">
                 <div class="row g-2">
                     <div class="col-md-4">
-                        <input type="text" class="form-control border-0" placeholder="Keyword" />
+                        <input type="text" name="keyword" id="keyword" class="form-control border-0" placeholder="Keywords" />
                     </div>
                     <div class="col-md-4">
-                        <select class="form-select border-0">
-                            <option selected>Category</option>
-                            <option value="1">Category 1</option>
-                            <option value="2">Category 2</option>
-                            <option value="3">Category 3</option>
+                        <select name="category" id="category" class="form-control bg-white border-0 ">
+                            <option value="" selected >Select Category</option>
+                            @if ($categories->isNotEmpty())
+                                @foreach ($categories->take(8) as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <select class="form-select border-0">
-                            <option selected>Location</option>
-                            <option value="1">Location 1</option>
-                            <option value="2">Location 2</option>
-                            <option value="3">Location 3</option>
-                        </select>
+                        <input type="text" name="location" id="location" class="form-control border-0" placeholder="Location" />
                     </div>
                 </div>
             </div>
             <div class="col-md-2">
-                <button class="btn bg-primary border-0 w-100">Search</button>
+                <button type="submit" class="btn btn-primary py-2 w-100">Search</button>
             </div>
+        </form>
         </div>
     </div>
 </div>
@@ -77,9 +74,9 @@
 
         <div class="row g-4">
             @if ($categories->isNotEmpty())
-                @foreach ($categories as $category)
+                @foreach ($categories->take(8) as $category)
                 <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <a class="cat-item rounded p-4" href="">
+                    <a class="cat-item rounded p-4" href="{{ route('jobs').'?category='.$category->id }}">
                         <h1 class="fs-4 text-primary">{{ $category->name }}</h1>
                         <p class="my-0 info1 fs-6">123 Vacancy</p>
                     </a>
@@ -237,7 +234,4 @@
 </div>
 <!-- Testimonial End -->
 
-
-<!-- Back to Top -->
-<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 @endsection
