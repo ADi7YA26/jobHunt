@@ -49,6 +49,37 @@
                     @endif
                 </div>
 
+                @if (Auth::user() && Auth::user()->id == $job->user_id)
+                    <div class="applicants mt-5">
+                        <div class="">
+                            <h3 class="mb-3">Applicants</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table border">
+                                <thead class="bg-light text-primary">
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Mobile</th>
+                                        <th>Applied Date</th>
+                                </thead>
+                                <tbody>
+                                    @if ($applications->isNotEmpty())
+                                        @foreach ($applications as $application)
+                                            <tr>
+                                                <td>{{ $application->user->name }}</td>
+                                                <td>{{ $application->user->email }}</td>
+                                                <td>{{ $application->user->mobile }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($application->applied_date)->format('d M, Y') }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr><td colspan="4">No Applicants</td></tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                @endif
             </div>
             
             <div class="col-lg-4">
