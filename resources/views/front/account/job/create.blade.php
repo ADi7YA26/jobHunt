@@ -157,6 +157,15 @@
 
 @section('customJs')
 	<script type="text/javascript">
+
+		$('textarea').each(function() {
+			ClassicEditor
+				.create(this)
+				.catch(error => {
+					console.error(error);
+				});
+		});
+
 		$("#createJobForm").submit(function(e){
 			e.preventDefault();
 
@@ -167,7 +176,7 @@
 				data: $("#createJobForm").serializeArray(),
 				success: function(response){
 					if(response.status == true){
-						["title", "category", "jobType", "vacancy", "location", "description", "company_name"].forEach(field => {
+						["title", "category", "job_type", "vacancy", "location", "description", "company_name"].forEach(field => {
 							toggleValidation(field, null); // Use toggleValidation function here
 						});
 
@@ -176,7 +185,7 @@
 						let errors = response.errors;                    
 						toggleValidation("title", errors.title);
 						toggleValidation("category", errors.category);
-						toggleValidation("jobType", errors.jobType);
+						toggleValidation("job_type", errors.job_type);
 						toggleValidation("vacancy", errors.vacancy);
 						toggleValidation("location", errors.location);
 						toggleValidation("description", errors.description);

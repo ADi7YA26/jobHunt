@@ -99,7 +99,7 @@
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
 						<div class="form-group my-2">
 							<label class="form-label" for="keywords">Keywords</label>
-							<input name="keywords" value={{ $job->keywords }} class="form-control" id="keywords" rows="5" placeholder="Keywords">
+							<input name="keywords" value="{{ $job->keywords }}" class="form-control" id="keywords" rows="5" placeholder="Keywords">
 						</div>
 					</div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -158,6 +158,15 @@
 
 @section('customJs')
 	<script type="text/javascript">
+
+		$('textarea').each(function() {
+			ClassicEditor
+				.create(this)
+				.catch(error => {
+					console.error(error);
+				});
+		});
+
 		$("#updateJobForm").submit(function(e){
 			e.preventDefault();
             $("button[type='submit']").prop('disabled',true);
@@ -169,8 +178,8 @@
 				success: function(response){
                     $("button[type='submit']").prop('disabled',false);
 					if(response.status == true){
-						["title", "category", "jobType", "vacancy", "location", "description", "company_name"].forEach(field => {
-							toggleValidation(field, null); // Use toggleValidation function here
+						["title", "category", "job_type", "vacancy", "location", "description", "company_name"].forEach(field => {
+							toggleValidation(field, null);
 						});
 
 						window.location.href="{{ route('account.myJobs') }}";
@@ -178,7 +187,7 @@
 						let errors = response.errors;                    
 						toggleValidation("title", errors.title);
 						toggleValidation("category", errors.category);
-						toggleValidation("jobType", errors.jobType);
+						toggleValidation("job_type", errors.job_type);
 						toggleValidation("vacancy", errors.vacancy);
 						toggleValidation("location", errors.location);
 						toggleValidation("description", errors.description);
