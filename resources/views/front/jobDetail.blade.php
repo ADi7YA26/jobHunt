@@ -6,7 +6,7 @@
         <div class="mb-5">
             <a href="{{ route('jobs') }}"><i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp;Back to Jobs</a>
         </div>
-        <div class="row mb-5 gy-5 gx-4">
+        <div class="row mb-5 gy-5 gx-4 bg-white rounded p-3">
             <div class="col-lg-8">
                 @include('front.message')
                 <div class="d-flex align-items-center mb-5">
@@ -21,12 +21,12 @@
                     </div>
                     <div class="jobs_right" style="margin:0 0 auto auto ;">
                         <div class="save_job">
-                            <a href="javascript:void(0);" onclick="saveJob({{ $job->id }})" class="btn btn-light btn-square" aria-hidden="true"><i class="{{ ($count == 1)?'fas': 'far'}} fa-heart text-primary"></i></a>
+                            <a href="javascript:void(0);" onclick="saveJob({{ $job->id }})" class="btn btn-light btn-square" aria-hidden="true"><i class="{{ ($count == 1)?'fas': 'far'}} fa-heart"></i></a>
                         </div>
                     </div>
                 </div>
 
-                <div class="mb-5">
+                <div class="mb-5 job-detail">
                     <h4 class="mb-3">Job description</h4>
                     <p>{!! nl2br($job->description) !!}</p>
                     <h4 class="mb-3">Responsibility</h4>
