@@ -11,11 +11,8 @@ use App\Models\JobApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
-
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class AccountController extends Controller
 {
@@ -129,44 +126,58 @@ class AccountController extends Controller
     }
 
     public function updateProfilePic(Request $request){
-        $id = Auth::user()->id;
+        $user = Auth::user();
 
         $validator = Validator::make($request->all(), [
-            'image' => 'required|image'
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:1024'
         ]);
 
-        if($validator->passes()){
-            $image = $request->image;
-            $ext = $image->getClientOriginalExtension();
-            $imageName = $id.'-'.time().'.'.$ext;
-            $image->move(public_path('/profile_pic/'), $imageName);
-
-            // Create a small thumbnail
-            $sourcePath = public_path('/profile_pic/'.$imageName);
-            $manager = new ImageManager(Driver::class);
-            $image = $manager->read($sourcePath);
-
-            // crop the best fitting 5:3 (600x360) ratio and resize to 600x360 pixel
-            $image->cover(150, 150);
-            $image->toPng()->save(public_path('/profile_pic/thumb/'.$imageName));
-
-
-            // Delete Old Profile Pic
-            File::delete(public_path('/profile_pic/thumb/'.Auth::user()->image));
-            File::delete(public_path('/profile_pic/'.Auth::user()->image));
-
-            User::where('id',$id)->update(['image' => $imageName]);
-
-            session()->flash('success','Profile picture updated successfully.');
-
-            return response()->json([
-                'status' => true,
-                'errors' => []
-            ]);
-        }else{
+        if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        try {
+            $image = $request->file('image');
+            
+            // Delet old image if exist
+            if ($user->image) {
+                $oldImageUrl = $user->image;
+                $publicId = substr($oldImageUrl, strrpos($oldImageUrl, '/') + 1);
+                $publicId = pathinfo($publicId, PATHINFO_FILENAME);
+                $publicId = 'jobhunt/profile/' . $publicId;
+        
+                Cloudinary::destroy($publicId);
+            }
+
+            // Upload the new image to Cloudinary
+            $uploadedFileUrl = Cloudinary::upload($image->getRealPath(), [
+                'folder' => 'jobhunt/profile',
+                'transformation' => [
+                    'width' => 400,
+                    'height' => 400,
+                    'crop' => 'fill'
+                ]
+            ])->getSecurePath();
+
+            // Update the user's profile with the new image URL
+            $user->image = $uploadedFileUrl;
+            $user->save();
+
+            // Success response
+            session()->flash('success', 'Profile picture updated successfully.');
+            return response()->json([
+                'status' => true,
+                'errors' => [],
+            ]);
+            
+        } catch (\Exception $e) {
+            // Catch any errors (e.g., Cloudinary upload failure)
+            return response()->json([
+                'status' => false,
+                'errors' => ['image' => 'Failed to upload the image. Please try again later.'],
             ]);
         }
     }

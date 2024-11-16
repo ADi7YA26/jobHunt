@@ -2,7 +2,7 @@
     <div class="user-profile">
         <div class="user-avatar mb-2">
             @if (Auth::user()->image != '')
-                <img src="{{ asset('profile_pic/thumb/'.Auth::user()->image) }}" alt="avatar">
+                <img src="{{ Auth::user()->image }}" alt="avatar">
             @else
                 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
             @endif
@@ -34,6 +34,7 @@
             <div class="mb-3">
                 <label for="image" class="form-label">Profile Image</label>
                 <input type="file" class="form-control" id="image" name="image">
+                <span class="pb-0 info1">Maximum size: 1MB</span>
                 <p class="text-danger" id="image-error"></p>
             </div>
             <div class="d-flex justify-content-end">

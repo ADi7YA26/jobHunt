@@ -8,7 +8,6 @@
 	<meta content="" name="keywords">
 	<meta content="" name="description">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
-
 	<!-- Google Web Fonts -->
 	<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
 
@@ -132,6 +131,7 @@
 		$("#profilePicForm").submit(function(e){
 			e.preventDefault();
 			let formData = new FormData(this);
+			$('#spinner').addClass('show');
 			$.ajax({
 				url: '{{ route("account.updateProfilePic") }}',
 				type: 'post',
@@ -140,9 +140,9 @@
 				contentType: false,
 				processData: false,
 				success: function(response){
+					$('#spinner').removeClass('show');
 					if(response.status == false){
 						let errors =response.errors;
-						
 						if(errors.image){
 							$('#image-error').html(errors.image)
 						}
